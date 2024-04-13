@@ -19,7 +19,7 @@ from database import Database
 import os
 import re
 
-SECRET_KEY_TOKEN = os.environ['SECRET_KEY_TOKEN']
+SECRET_KEY_TOKEN = "d7a13788e0f877c28fc4dc071e2f241865b6654a4124d22d6293349cdc3654d6"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 120
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -39,6 +39,22 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY_TOKEN, algorithm=ALGORITHM)
 
     return encoded_jwt
+
+
+#async def authenticate_user(login_credentials: LoginCredentials):
+#    user = get_user_by_email(login_credentials.email)
+#
+#    # Return 'None' instead of False as per fastAPI docs
+#    if not user:
+#        print("Could not retrieve email")
+#        return None
+#
+#    # Compare the plaintext password directly with the stored password
+#    if login_credentials.password != user.hashed_password:
+#        print("Password incorrect")
+#        return None
+#
+#    return user
 
 
 async def authenticate_user(login_credentials: LoginCredentials):

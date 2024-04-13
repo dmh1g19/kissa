@@ -3,6 +3,7 @@ User authentication routes module.
 
 This module contains authentication logic, password hashing, and JWT/JSON token handling.
 """
+
 from bson import ObjectId
 from fastapi import Depends
 from fastapi import APIRouter, HTTPException, status
@@ -12,6 +13,29 @@ from profile import find_matches_within_radius
 
 user_db = Database()
 router = APIRouter(prefix='/profiles', tags=['auth'])
+
+#@router.post("/token", response_model=Token)
+#async def login(form_data: OAuth2PasswordRequestForm = Depends()):
+#    # Create login credentials object with plaintext password
+#    login_credentials = LoginCredentials(email=form_data.username, password=form_data.password)
+#
+#    # Authenticate user with plain text password
+#    user = await authenticate_user(login_credentials)
+#
+#    if not user:
+#        raise HTTPException(
+#            status_code=status.HTTP_401_UNAUTHORIZED,
+#            detail="Incorrect email or password",
+#            headers={"WWW-Authenticate": "Bearer"},
+#        )
+#
+#    # If user in database, grant token with set expiration
+#    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+#    access_token = create_access_token(
+#        data={"sub": user.oid}, expires_delta=access_token_expires
+#    )
+#
+#    return Token(access_token=access_token, token_type="bearer")
 
 
 @router.post("/token", response_model=Token)

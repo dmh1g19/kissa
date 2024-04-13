@@ -6,10 +6,10 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - SECRET_KEY_TOKEN=${SECRET_KEY_TOKEN}
-      - COSMOS_DB_URI=${COSMOS_DB_URI}
-      - COSMOS_DB_NAME=${COSMOS_DB_NAME}
-      - COSMOS_DB_PROFILE_COLLECTION=${COSMOS_DB_PROFILE_COLLECTION}
-      - COSMOS_DB_MATCH_COLLECTION=${COSMOS_DB_MATCH_COLLECTION}
+      - SECRET_KEY_TOKEN=''
+      - COSMOS_DB_URI='mongodb+srv://danny:Wuacamiki123!@kissa.wc7urkg.mongodb.net/?retryWrites=true&w=majority&appName=kissa'
+      - COSMOS_DB_NAME='kissa-db'
+      - COSMOS_DB_PROFILE_COLLECTION='kissa-db-profile-collection'
+      - COSMOS_DB_MATCH_COLLECTION='kissa-db-match-collection'
     ports:
       - "8080:8080"

@@ -23,7 +23,7 @@ def pythonize(d: dict) -> dict:
 class Database:
     # Uses azures key vault
     def __init__(self):
-        COSMOS_DB_URI = "mongodb://kissa-db-dpwvhfkg:7i661s7SDxYdbRP3PTGLQEaCUGiaQea0zyqvrNelWu1ZBJByuROpU5D6AbUUcIYZYkl7NaG1IE7VACDbloh7Iw==@kissa-db-dpwvhfkg.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@kissa-db-dpwvhfkg@"
+        COSMOS_DB_URI = "mongodb+srv://danny2:Wuacamiki@kissa.wc7urkg.mongodb.net/?retryWrites=true&w=majority&appName=kissa"
         COSMOS_DB_NAME = "kissa-db"
         COSMOS_DB_PROFILE_COLLECTION = "kissa-db-profile-collection"
         COSMOS_DB_MATCH_COLLECTION = "kissa-db-match-collection"

@@ -33,7 +33,6 @@ middleware = [
 
 app = FastAPI(middleware=middleware)
 
-
 @app.get("/")
 async def root():
     return {
