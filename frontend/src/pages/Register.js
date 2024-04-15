@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
   const Register = () => {
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
       email: '',
       password: '',
@@ -52,13 +55,13 @@ import axios from 'axios';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const formattedDate = dob.split('-').reverse().join('/');
+  
     if (password !== confirmPassword) {
       alert('Passwords do not match');
       return;
     }
-
+  
     try {
       const response = await axios.post('http://localhost:8080/profiles/register', {
         email,
@@ -69,14 +72,20 @@ import axios from 'axios';
         preference,
         dob: formattedDate,
         age_range: [18, 25],
-        profile_pic_url: 'TEMP',
+        profile_pic_url: '',
         location,
         cat,
       });
-
+  
+      const { access_token, sub } = response.data;
+  
+      localStorage.setItem('sub', sub);
+      localStorage.setItem('token', access_token);
+  
+      navigate('/pictures');
       console.log(response);
     } catch (err) {
-      console.error(err); 
+      console.error(err);
     }
   };
 

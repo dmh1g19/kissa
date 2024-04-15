@@ -14,30 +14,6 @@ from profile import find_matches_within_radius
 user_db = Database()
 router = APIRouter(prefix='/profiles', tags=['auth'])
 
-#@router.post("/token", response_model=Token)
-#async def login(form_data: OAuth2PasswordRequestForm = Depends()):
-#    # Create login credentials object with plaintext password
-#    login_credentials = LoginCredentials(email=form_data.username, password=form_data.password)
-#
-#    # Authenticate user with plain text password
-#    user = await authenticate_user(login_credentials)
-#
-#    if not user:
-#        raise HTTPException(
-#            status_code=status.HTTP_401_UNAUTHORIZED,
-#            detail="Incorrect email or password",
-#            headers={"WWW-Authenticate": "Bearer"},
-#        )
-#
-#    # If user in database, grant token with set expiration
-#    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-#    access_token = create_access_token(
-#        data={"sub": user.oid}, expires_delta=access_token_expires
-#    )
-#
-#    return Token(access_token=access_token, token_type="bearer")
-
-
 @router.post("/token", response_model=Token)
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     login_credentials = LoginCredentials(email=form_data.username, password=form_data.password)
@@ -68,43 +44,6 @@ async def register(user_data: RegisterUser):
     user_dict['hashed_password'] = h_pass
     user_dict.pop('password', None)
     user_dict.pop('confirm', None)
-#
-#    if not pass_matches(user_data.password, user_data.confirm):
-#        raise HTTPException(
-#            status_code=status.HTTP_400_BAD_REQUEST,
-#            detail='Passwords must match'
-#        )
-#    
-#    if not validate_password(user_data.password):
-#        raise HTTPException(
-#            status_code=status.HTTP_400_BAD_REQUEST,
-#            detail='Password must be at least 8 characters, contain a number, contain a symbol, contain an upper and lower and no white space'
-#        )
-#
-#    if not validate_email(user_data.email):
-#        raise HTTPException(
-#            status_code=status.HTTP_400_BAD_REQUEST,
-#            detail='Email not valid, please enter another'
-#        )
-#
-#    if not validate_dob(user_data.dob):
-#        raise HTTPException(
-#            status_code=status.HTTP_400_BAD_REQUEST,
-#            detail='You must be at least 18 years old to sign up'
-#        )
-#
-#    if not validate_cat_age(user_data.cat.age):
-#        raise HTTPException(
-#            status_code=status.HTTP_400_BAD_REQUEST,
-#            detail='Cat age must not be 0'
-#        )
-#
-#    result, missing_field = no_empty_fields(user_data)
-#    if not result:
-#        raise HTTPException(
-#            status_code=status.HTTP_400_BAD_REQUEST,
-#            detail='Please provide ' + missing_field
-#        )
 
     if get_user_by_email(user_data.email):
         raise HTTPException(

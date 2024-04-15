@@ -41,22 +41,6 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
     return encoded_jwt
 
 
-#async def authenticate_user(login_credentials: LoginCredentials):
-#    user = get_user_by_email(login_credentials.email)
-#
-#    # Return 'None' instead of False as per fastAPI docs
-#    if not user:
-#        print("Could not retrieve email")
-#        return None
-#
-#    # Compare the plaintext password directly with the stored password
-#    if login_credentials.password != user.hashed_password:
-#        print("Password incorrect")
-#        return None
-#
-#    return user
-
-
 async def authenticate_user(login_credentials: LoginCredentials):
     user = get_user_by_email(login_credentials.email)
 

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,9 +22,26 @@ const Login = () => {
       };
 
       const response = await axios.post('http://localhost:8080/profiles/token', formData, config);
-      console.log("RESPONSE: " + response.data)
+      
+      if (response.data && response.data.access_token) {
+        const tokenParts = response.data.access_token.split('.');
+        const payload = JSON.parse(atob(tokenParts[1]));
+        const userId = payload.sub;
+
+        localStorage.setItem('sub', userId);
+        localStorage.setItem('token', response.data.access_token);
+
+        console.log("Client received token: " + response.data.access_token)
+        console.log("Client received user profile id: " + userId)
+
+        navigate('/profiles/me');
+      
+      } else {
+        throw new Error('Failed to obtain token');
+      }
     } catch (error) {
       setError('Invalid email or password');
+      console.log("ERROR: " + error)
     }
   };
 

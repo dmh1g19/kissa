@@ -15,8 +15,7 @@ router = APIRouter(prefix="/profiles", tags=['profiles'])
 user_db = Database()
 
 
-@router.get("/{pid}", status_code=status.HTTP_200_OK, response_model=UserProfile,
-            response_model_exclude={'hashed_password'})
+@router.get("/{pid}", status_code=status.HTTP_200_OK, response_model=UserProfile, response_model_exclude={'hashed_password'})
 async def get_user_profile(pid: str, current_user: UserProfile = Depends(get_current_user)) -> UserProfile:
     """
     Get user profile data
@@ -52,8 +51,7 @@ async def get_cat_profile(pid: str, current_user: UserProfile = Depends(get_curr
 
 
 @router.patch("/{pid}", status_code=status.HTTP_200_OK)
-async def update_profile(pid: str, profile: UserPatch,
-                         current_user: UserProfile = Depends(get_current_user)) -> UserProfile:
+async def update_profile(pid: str, profile: UserPatch, current_user: UserProfile = Depends(get_current_user)) -> UserProfile:
     """
     Update profile by patch
 

@@ -47,7 +47,7 @@ async def upload_cat_pictures(files: List[UploadFile] = File(...), current_user:
     file_ids = []
 
     for file in files:
-        print("Image format: " + (file.filename).split('.')[-1])
+        #print("Image format: " + (file.filename).split('.')[-1])
         if not (file.filename).split('.')[-1] in allowed_imgs:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Image not in correct format")
         

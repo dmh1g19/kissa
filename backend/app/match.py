@@ -10,8 +10,7 @@ from typing_extensions import Annotated
 
 from auth_ops import get_current_user
 from database import Database
-from models import Match, Message, MeetingConfirmation, ConfirmResponse, ConfirmSuggestion, UserProfile, fake_cat, \
-    CatProfile
+from models import Match, Message, MeetingConfirmation, ConfirmResponse, ConfirmSuggestion, UserProfile, fake_cat, CatProfile
 from typing import Any
 from profile import get_cat_profile, get_user_profile
 

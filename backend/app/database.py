@@ -116,7 +116,7 @@ class Database:
                 cat_images = user['cat'].get('image_ids', [])
                 cat_images.append(str(image_id))
                 update = {'$set': {'cat.image_ids': cat_images}}
-                result = self.profile_collection.update_one({'_id': user_id}, update)
+                result = self.profile_collection.update_one({'_id': ObjectId(user_id)}, update)
                 return result.acknowledged
             return False
         except Exception as e:
