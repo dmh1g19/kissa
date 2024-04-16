@@ -39,8 +39,7 @@ async def get_suggestion(current_user: UserProfile = Depends(get_current_user)) 
 
 
 @router.post("/confirm", status_code=status.HTTP_200_OK)
-async def confirm_suggestion(confirmation: ConfirmSuggestion,
-                             current_user: UserProfile = Depends(get_current_user)) -> ConfirmResponse:
+async def confirm_suggestion(confirmation: ConfirmSuggestion, current_user: UserProfile = Depends(get_current_user)) -> ConfirmResponse:
     """
     Confirm that the user liked the suggestion
     :param confirmation: the confirmation of choice details
@@ -112,8 +111,7 @@ async def confirm_suggestion(confirmation: ConfirmSuggestion,
 
 
 @router.post("/skip", status_code=status.HTTP_200_OK)
-async def skip_suggestion(confirmation: ConfirmSuggestion,
-                          current_user: UserProfile = Depends(get_current_user)) -> ConfirmResponse:
+async def skip_suggestion(confirmation: ConfirmSuggestion, current_user: UserProfile = Depends(get_current_user)) -> ConfirmResponse:
     """Skips the given profile"""
     user = db.get_user_by_id(confirmation.oid)
     if user is None:
@@ -135,8 +133,7 @@ async def skip_suggestion(confirmation: ConfirmSuggestion,
 
 
 @router.get("/{mid}", status_code=status.HTTP_200_OK, response_model=Match, response_model_exclude_unset=True)
-async def get_match(mid: str,
-                    current_user: UserProfile = Depends(get_current_user)) -> Match | None:
+async def get_match(mid: str, current_user: UserProfile = Depends(get_current_user)) -> Match | None:
     match = db.get_match(mid)
     if match is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Not found")
@@ -150,9 +147,7 @@ async def get_match(mid: str,
 
 
 @router.get("/{mid}/messages", status_code=status.HTTP_200_OK)
-async def get_messages(mid: str,
-                       size: Annotated[str | None, Query(regex="^[0-9]*[1-9][0-9]*$")] = None,
-                       current_user: UserProfile = Depends(get_current_user)) -> list[Message]:
+async def get_messages(mid: str, size: Annotated[str | None, Query(regex="^[0-9]*[1-9][0-9]*$")] = None, current_user: UserProfile = Depends(get_current_user)) -> list[Message]:
     if size is not None:
         try:
             list_len = int(size)
@@ -185,8 +180,7 @@ async def post_message(mid: str, msgs: list[Message], current_user: UserProfile 
 
 
 @router.post("/{mid}/confirm", status_code=status.HTTP_200_OK)
-async def confirm_meeting(mid: str, confirmation: MeetingConfirmation,
-                          current_user: UserProfile = Depends(get_current_user)):
+async def confirm_meeting(mid: str, confirmation: MeetingConfirmation, current_user: UserProfile = Depends(get_current_user)):
     await get_match(mid, current_user)
     confirmations = db.confirm_meeting(current_user.oid, mid)
     if confirmations is None:
