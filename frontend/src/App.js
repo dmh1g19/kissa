@@ -6,6 +6,7 @@ import Welcome from './pages/Welcome';
 import UserProfile from './pages/Profile'; 
 import UploadUserPic from './pages/UploadUserPic';
 import UploadCatPics from './pages/UploadCatPics';
+import Match from './pages/Match';
 
 function App() {
 
@@ -16,8 +17,9 @@ function App() {
         <Route path="/profiles/register" element={<Register />} />
         <Route path="/pictures" element={<UploadUserPic />} />
         <Route path="/pictures/cat" element={<UploadCatPics />} />
-        <Route path="/profiles/me" element={<UserProfile />} />
         <Route path="/profiles/token" element={<Login />} />
+        <Route path="/profiles/me" element={<UserProfile />} />
+        <Route path="/profiles" element={<Match />} />
       </Routes>
     </Router>
   );

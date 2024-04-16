@@ -4,6 +4,7 @@ import ButtonMain from '../components/ButtonMain';
 
 const UserProfile = () => {
   const [profileData, setProfileData] = useState(null);
+  const [pictureData, setPictureData] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -28,11 +29,35 @@ const UserProfile = () => {
     fetchUserProfile();
   }, []);
 
+  useEffect(() => {
+    async function fetchPicture() {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          throw new Error('Token not found in local storage');
+        }
+
+        const response = await axios.get(`http://localhost:8080/pictures/${profileData.profile_pic_url}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setPictureData(response.data);
+      } catch (error) {
+        setError('Failed to fetch picture data');
+      }
+    }
+
+    if (profileData) {
+      fetchPicture();
+    }
+  }, [profileData]);
+
   if (error) {
     return <div>Error: {error}</div>;
   }
 
-  if (!profileData) {
+  if (!profileData || !pictureData) {
     return <div>Loading...</div>;
   }
 
@@ -41,13 +66,15 @@ const UserProfile = () => {
       <h1>User Profile</h1>
       <p>Name: {profileData.name}</p>
       <p>Email: {profileData.email}</p>
-
-      <div>
-        <ButtonMain 
-          onProfileClick={() => console.log('Profile clicked')}
-          onMatchClick={() => console.log('Match clicked')}
-          onChatClick={() => console.log('Chat clicked')}
+      <div style={{ maxWidth: '250px', maxHeight: '250px', overflow: 'hidden' }}>
+        <img
+          src={`data:image/jpeg;base64,${pictureData}`}
+          alt="User"
+          style={{ maxWidth: '100%', maxHeight: '100%' }}
         />
+      </div>
+      <div>
+        <ButtonMain />
       </div>
     </div>
   );
