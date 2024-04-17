@@ -13,7 +13,7 @@ const ButtonMain = () => {
   };
 
   const handleChatClick = () => {
-    console.log("Clicked the chat button")
+    navigate('/chat');
   };
 
   return (

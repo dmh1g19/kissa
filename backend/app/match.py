@@ -48,6 +48,7 @@ async def confirm_suggestion(confirmation: ConfirmSuggestion, current_user: User
     """
     user = db.get_user_by_id(confirmation.oid)
     if user is None:
+        print("ERROR: No user id")
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Not found")
 
     user = UserProfile(**user)
@@ -61,6 +62,7 @@ async def confirm_suggestion(confirmation: ConfirmSuggestion, current_user: User
         )
         match_id = db.create_match(match.model_dump())
         if match_id is None:
+            print("ERROR: No match id")
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail='Error creating a match')
 
         # ------- Update other user ------

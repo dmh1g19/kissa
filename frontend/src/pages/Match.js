@@ -3,73 +3,80 @@ import axios from 'axios';
 import ButtonMain from '../components/ButtonMain';
 import PatchProfile from '../api/PatchProfile';
 import GetSuggestedProfile from '../api/GetSuggestedProfile';
+import SkipProfile from '../api/SkipProfile';
+import MatchProfile from '../api/MatchProfile';
+import GetCatPictures from '../api/GetCatPictures'; 
 
 const Match = () => {
   const [suggestedCatProfile, setSuggestedCatProfile] = useState(null);
+  const [catPictures, setCatPictures] = useState([]);
   const [error, setError] = useState(null);
-
-  const fetchSuggestedProfile = async () => {
-    try {
-      await PatchProfile();
-      const profile = await GetSuggestedProfile();
-
-      if (profile) {
-        setSuggestedCatProfile(profile);
-      } else {
-        setError('No matching cat profile found');
-      }
-    } catch (error) {
-      setError(error.message);
-    }
-  };
 
   useEffect(() => {
     fetchSuggestedProfile();
   }, []); 
 
-  const handleMatchClick = async () => {
-    fetchSuggestedProfile(); 
+  // A patch request prviding the location is needed before suggestions will work
+  // thisis to ensure suggestions are current to the user's location
+  const fetchSuggestedProfile = async () => {
+    await PatchProfile();
+    getNextSuggestion();
   };
 
   const handleSkipClick = async () => {
-    try {
-      const token = localStorage.getItem('token');
+    await SkipProfile(suggestedCatProfile, setError);
+    getNextSuggestion();
+  };
 
-      if (!token) {
-        throw new Error('Token not found in local storage');
-      }
+  const handleMatchClick = async () => {
+    const response = await MatchProfile(suggestedCatProfile);
+    getNextSuggestion();
+  };
 
-      await axios.post('http://localhost:8080/match/skip', {
-        oid: suggestedCatProfile.owner_id
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+  const getNextSuggestion = async () => {
+    const profile = await GetSuggestedProfile();
 
-      fetchSuggestedProfile(); // Fetch next suggested profile after skipping
-    } catch (error) {
-      setError('Failed to skip suggested cat profile');
+    if (profile) {
+      const images = await Promise.all(profile.image_ids.map(imageId => GetCatPictures(imageId)));
+      setCatPictures(images);
+      setSuggestedCatProfile(profile);
+    } else {
+      setError('No matching cat profile found');
     }
   };
 
-  return (
+return (
     <div>
       <div>
         <h1>Suggested</h1>
       </div>
-      {error && <div>Error: {error}</div>}
-      {suggestedCatProfile && (
-        <div>
-          <p>Name: {suggestedCatProfile.name}</p>
-          <p>Bio: {suggestedCatProfile.bio}</p>
-          <p>Age: {suggestedCatProfile.age}</p>
-        </div>
+      {error ? (
+        <div>Error: {error}</div>
+      ) : (
+        suggestedCatProfile && (
+          <div>
+            <div>
+              <p>Name: {suggestedCatProfile.name}</p>
+              <p>Bio: {suggestedCatProfile.bio}</p>
+              <p>Age: {suggestedCatProfile.age}</p>
+              <div>
+                {catPictures.map((image, index) => (
+                  <img 
+                    key={index} 
+                    src={`data:image/*;base64,${image}`} 
+                    alt={`Cat Profile ${index}`} 
+                    style={{ maxWidth: '250px', maxHeight: '250px' }} 
+                  />
+                ))}
+              </div>
+            </div>
+            <div>
+              <button onClick={handleSkipClick}>Skip</button>
+              <button onClick={handleMatchClick}>Match</button>
+            </div>
+          </div>
+        )
       )}
-      <div>
-        <button onClick={handleSkipClick}>Skip</button>
-        <button>Match</button>
-      </div>
       <ButtonMain />
     </div>
   );

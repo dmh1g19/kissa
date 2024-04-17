@@ -172,7 +172,7 @@ import axios from 'axios';
           <input type="text" name="cat.breed" value={cat.breed} onChange={handleChange} required />
         </div>
         <div>
-          <label>Pet Preference:</label>
+          <label>Pet gender:</label>
           <div>
             <input type="radio" id="pet-male-sex" name="cat.sex" value="male" onChange={() => setFormData({ ...formData, cat: { ...cat, sex: true } })} checked={cat.sex === true} />
             <label htmlFor="male">Male</label>

@@ -1,13 +1,17 @@
 import axios from 'axios';
+import { baseURL, timeout, headers } from './ApiConfig';
 
 const GetCatPictures = async (pid) => {
   try {
     const token = localStorage.getItem('token');
-  
-    const response = await axios.get(`http://localhost:8080/pictures/${pid}`, {
+    const suffix = `/pictures/${pid}`;
+
+    const response = await axios.get(`${baseURL}${suffix}`, {
       headers: {
+        ...headers,
         Authorization: `Bearer ${token}`
-      }
+      },
+      timeout: timeout, 
     });
 
     return response.data;

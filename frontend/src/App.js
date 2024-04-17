@@ -7,6 +7,7 @@ import UserProfile from './pages/Profile';
 import UploadUserPic from './pages/UploadUserPic';
 import UploadCatPics from './pages/UploadCatPics';
 import Match from './pages/Match';
+import Chat from './pages/Chat';
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
         <Route path="/profiles/token" element={<Login />} />
         <Route path="/profiles/me" element={<UserProfile />} />
         <Route path="/profiles" element={<Match />} />
+        <Route path="/chat" element={<Chat />} />
       </Routes>
     </Router>
   );

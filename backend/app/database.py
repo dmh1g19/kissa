@@ -8,6 +8,7 @@ from typing import Optional
 from pymongo import MongoClient
 from bson import ObjectId
 import gridfs
+import os 
 
 
 def documentize(d: dict) -> dict:
@@ -23,10 +24,10 @@ def pythonize(d: dict) -> dict:
 class Database:
     # Uses azures key vault
     def __init__(self):
-        COSMOS_DB_URI = "mongodb+srv://danny2:Wuacamiki@kissa.wc7urkg.mongodb.net/?retryWrites=true&w=majority&appName=kissa"
-        COSMOS_DB_NAME = "kissa-db"
-        COSMOS_DB_PROFILE_COLLECTION = "kissa-db-profile-collection"
-        COSMOS_DB_MATCH_COLLECTION = "kissa-db-match-collection"
+        COSMOS_DB_URI = os.environ.get("COSMOS_DB_URI")
+        COSMOS_DB_NAME = os.environ.get("COSMOS_DB_NAME")
+        COSMOS_DB_PROFILE_COLLECTION = os.environ.get("COSMOS_DB_PROFILE_COLLECTION")
+        COSMOS_DB_MATCH_COLLECTION = os.environ.get("COSMOS_DB_MATCH_COLLECTION")
         
         client = MongoClient(COSMOS_DB_URI)
         self.db = client[COSMOS_DB_NAME]
@@ -68,7 +69,6 @@ class Database:
 
             # filter out keys with `None` values
             filtered = {k: v for k, v in user_dict.items() if v is not None}
-
             update = dict()
             update['$set'] = filtered
             if self.profile_collection.update_one({'_id': oid}, update, upsert=False).acknowledged:
