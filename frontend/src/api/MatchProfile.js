@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const SkipProfile = async (suggestedCatProfile, setError) => {
+const MatchProfile = async (suggestedCatProfile) => {
   try {
     const token = localStorage.getItem('token');
 
@@ -8,17 +8,17 @@ const SkipProfile = async (suggestedCatProfile, setError) => {
       throw new Error('Token not found in local storage');
     }
 
-    await axios.post('http://localhost:8080/match/skip', {
-      oid: suggestedCatProfile.owner_id
+    await axios.post('http://localhost:8080/match/confirm', {
+      oid: suggestedCatProfile.owner_id 
     }, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
   } catch (error) {
-    setError('Failed to skip suggested cat profile');
+    throw new Error('Failed to confirm match');
   }
 };
 
-export default SkipProfile;
+export default MatchProfile;
 
