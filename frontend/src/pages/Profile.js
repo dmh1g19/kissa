@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ButtonMain from '../components/ButtonMain';
 import GetMe from '../api/GetMe';
+import GetProfilePicture from '../api/GetProfilePicture';
+import ButtonMain from '../components/ButtonMain';
+import Loading from '../components/Loading';
 
 const UserProfile = () => {
   const [profileData, setProfileData] = useState(null);
@@ -24,16 +26,8 @@ const UserProfile = () => {
   useEffect(() => {
     async function fetchPicture() {
       try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          throw new Error('Token not found in local storage');
-        }
 
-        const response = await axios.get(`http://localhost:8080/pictures/${profileData.profile_pic_url}`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
+        const response = await GetProfilePicture(profileData);
         setPictureData(response.data);
       } catch (error) {
         setError('Failed to fetch picture data');
@@ -50,7 +44,7 @@ const UserProfile = () => {
   }
 
   if (!profileData || !pictureData) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (

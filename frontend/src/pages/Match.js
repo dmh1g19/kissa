@@ -6,6 +6,7 @@ import GetSuggestedProfile from '../api/GetSuggestedProfile';
 import SkipProfile from '../api/SkipProfile';
 import MatchProfile from '../api/MatchProfile';
 import GetCatPictures from '../api/GetCatPictures'; 
+import Loading from '../components/Loading';
 
 const Match = () => {
   const [suggestedCatProfile, setSuggestedCatProfile] = useState(null);
@@ -15,6 +16,8 @@ const Match = () => {
   useEffect(() => {
     fetchSuggestedProfile();
   }, []); 
+
+  //TODO: Add try catch to each one
 
   // A patch request prviding the location is needed before suggestions will work
   // thisis to ensure suggestions are current to the user's location
@@ -45,6 +48,10 @@ const Match = () => {
     }
   };
 
+  if (!suggestedCatProfile || !catPictures) {
+    return <Loading />;
+  }
+
 return (
     <div>
       <div>
@@ -56,9 +63,6 @@ return (
         suggestedCatProfile && (
           <div>
             <div>
-              <p>Name: {suggestedCatProfile.name}</p>
-              <p>Bio: {suggestedCatProfile.bio}</p>
-              <p>Age: {suggestedCatProfile.age}</p>
               <div>
                 {catPictures.map((image, index) => (
                   <img 
@@ -69,7 +73,12 @@ return (
                   />
                 ))}
               </div>
+
+              <p>Name: {suggestedCatProfile.name}</p>
+              <p>Age: {suggestedCatProfile.age}</p>
+              <p>Bio: {suggestedCatProfile.bio}</p>
             </div>
+
             <div>
               <button onClick={handleSkipClick}>Skip</button>
               <button onClick={handleMatchClick}>Match</button>
