@@ -17,7 +17,9 @@
 <br>
 <br>
 
-<video src='https://github.com/dmh1g19/kissa/assets/97964514/fa49712a-f5d8-4425-8342-07fb1d572234'/>
-
 ## Please note:
 All styling has been removed from this project so your own can be added.
+
+<div style="text-align: center;">
+<video src='https://github.com/dmh1g19/kissa/assets/97964514/fa49712a-f5d8-4425-8342-07fb1d572234'/>
+<div>
