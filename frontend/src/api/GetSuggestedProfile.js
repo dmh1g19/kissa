@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { baseURL, timeout, headers } from './ApiConfig';
 
 const GetSuggestedProfile = async () => {
   try {
@@ -7,7 +8,8 @@ const GetSuggestedProfile = async () => {
       throw new Error('Token not found in local storage');
     }
 
-    const response = await axios.get('http://localhost:8080/match/suggest', {
+    const suffix = '/match/suggest';
+    const response = await axios.get(`${baseURL}${suffix}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }

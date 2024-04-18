@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { baseURL, timeout, headers } from './ApiConfig';
 
 const PatchProfile = async () => {
   try {
@@ -13,16 +14,14 @@ const PatchProfile = async () => {
       throw new Error('User ID not found in local storage');
     }
 
-    // Get user's current location using Geolocation API
     const position = await new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resolve, reject);
     });
 
     const { latitude, longitude } = position.coords;
-
-    // Patch the user's profile with the current location
-    await axios.patch(`http://localhost:8080/profiles/${userId}`, {
-      location: [latitude, longitude]
+    const suffix = `/profiles/${userId}` 
+    await axios.patch(`${baseURL}${suffix}`, {
+      location: [latitude, longitude] // Patch the user's profile with the current location
     }, {
       headers: {
         Authorization: `Bearer ${token}`

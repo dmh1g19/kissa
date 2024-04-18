@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { baseURL, timeout, headers } from './ApiConfig';
 
 const MatchProfile = async (suggestedCatProfile) => {
   try {
@@ -8,7 +9,8 @@ const MatchProfile = async (suggestedCatProfile) => {
       throw new Error('Token not found in local storage');
     }
 
-    await axios.post('http://localhost:8080/match/confirm', {
+    const suffix = '/match/confirm'
+    await axios.post(`${baseURL}${suffix}`, {
       oid: suggestedCatProfile.owner_id 
     }, {
       headers: {

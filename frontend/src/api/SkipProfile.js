@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { baseURL, timeout, headers } from './ApiConfig';
 
 const SkipProfile = async (suggestedCatProfile, setError) => {
   try {
@@ -8,7 +9,8 @@ const SkipProfile = async (suggestedCatProfile, setError) => {
       throw new Error('Token not found in local storage');
     }
 
-    await axios.post('http://localhost:8080/match/skip', {
+    const suffix = '/match/skip'
+    await axios.post(`${baseURL}${suffix}`, {
       oid: suggestedCatProfile.owner_id
     }, {
       headers: {

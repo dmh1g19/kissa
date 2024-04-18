@@ -4,8 +4,8 @@ import { baseURL, timeout, headers } from './ApiConfig';
 const GetCatPictures = async (pid) => {
   try {
     const token = localStorage.getItem('token');
-    const suffix = `/pictures/${pid}`;
 
+    const suffix = `/pictures/${pid}`;
     const response = await axios.get(`${baseURL}${suffix}`, {
       headers: {
         ...headers,
